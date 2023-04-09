@@ -594,6 +594,9 @@ void WaveshareEPaper2P7In::dump_config() {
 void WaveshareEPaper2P9InB::initialize() {
   // from https://www.waveshare.com/w/upload/b/bb/2.9inch-e-paper-b-specification.pdf, page 37
   // EPD hardware init start
+  this->reset_pin_->digital_write(true);
+  delay(200);  // NOLINT
+
   this->reset_();
 
   // COMMAND BOOSTER SOFT START
@@ -615,7 +618,7 @@ void WaveshareEPaper2P9InB::initialize() {
   // shift-right:               1
   // booster ON:                1
   // no soft reset:             1
-  this->data(0x9F);
+  this->data(0x8F);
 
   // COMMAND RESOLUTION SETTING
   // set to 128x296 by COMMAND PANEL SETTING
@@ -624,8 +627,21 @@ void WaveshareEPaper2P9InB::initialize() {
   // use defaults for white border and ESPHome image polarity
 
   // EPD hardware init end
+
+  this->command(0x50);  // VCOM_AND_DATA_INTERVAL_SETTING
+  this->data(0x77);
+
+  this->command(0x61);  // TCON_RESOLUTION
+  this->data(0x80);
+  this->data(0x01);
+  this->data(0x28);
+
+  this->command(0x82);  // VCM_DC_SETTING_REGISTER
+  this->data(0X0A);
+  ESP_LOGCONFIG(TAG, "Done setup");
 }
 void HOT WaveshareEPaper2P9InB::display() {
+  ESP_LOGCONFIG(TAG, "Display");
   // COMMAND DATA START TRANSMISSION 1 (B/W data)
   this->command(0x10);
   delay(2);
