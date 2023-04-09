@@ -594,11 +594,13 @@ void WaveshareEPaper2P7In::dump_config() {
 void WaveshareEPaper2P9InB::initialize() {
   // from https://www.waveshare.com/w/upload/b/bb/2.9inch-e-paper-b-specification.pdf, page 37
   // EPD hardware init start
+  ESP_LOGCONFIG(TAG, "Starting setup");
   this->reset_pin_->digital_write(true);
   delay(200);  // NOLINT
 
   this->reset_();
 
+  ESP_LOGCONFIG(TAG, "Booster start");
   // COMMAND BOOSTER SOFT START
   this->command(0x06);
   this->data(0x17);
@@ -609,6 +611,7 @@ void WaveshareEPaper2P9InB::initialize() {
   this->command(0x04);
   this->wait_until_idle_();
 
+  ESP_LOGCONFIG(TAG, "Panel settings");
   // COMMAND PANEL SETTING
   this->command(0x00);
   // 128x296 resolution:        10
@@ -631,6 +634,7 @@ void WaveshareEPaper2P9InB::initialize() {
   this->command(0x50);  // VCOM_AND_DATA_INTERVAL_SETTING
   this->data(0x77);
 
+  ESP_LOGCONFIG(TAG, "TCON Res");
   this->command(0x61);  // TCON_RESOLUTION
   this->data(0x80);
   this->data(0x01);
@@ -672,7 +676,7 @@ int WaveshareEPaper2P9InB::get_width_internal() { return 128; }
 int WaveshareEPaper2P9InB::get_height_internal() { return 296; }
 void WaveshareEPaper2P9InB::dump_config() {
   LOG_DISPLAY("", "Waveshare E-Paper", this);
-  ESP_LOGCONFIG(TAG, "  Model: 2.9in (B) @ henmyg");
+  ESP_LOGCONFIG(TAG, "  Model: 2.9in (B) @ henmyg 1.1");
   LOG_PIN("  Reset Pin: ", this->reset_pin_);
   LOG_PIN("  DC Pin: ", this->dc_pin_);
   LOG_PIN("  Busy Pin: ", this->busy_pin_);
