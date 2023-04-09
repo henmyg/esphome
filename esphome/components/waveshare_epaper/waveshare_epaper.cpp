@@ -656,7 +656,7 @@ int WaveshareEPaper2P9InB::get_width_internal() { return 128; }
 int WaveshareEPaper2P9InB::get_height_internal() { return 296; }
 void WaveshareEPaper2P9InB::dump_config() {
   LOG_DISPLAY("", "Waveshare E-Paper", this);
-  ESP_LOGCONFIG(TAG, "  Model: 2.9in (B)");
+  ESP_LOGCONFIG(TAG, "  Model: 2.9in (B) @ henmyg");
   LOG_PIN("  Reset Pin: ", this->reset_pin_);
   LOG_PIN("  DC Pin: ", this->dc_pin_);
   LOG_PIN("  Busy Pin: ", this->busy_pin_);
