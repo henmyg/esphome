@@ -653,6 +653,7 @@ void HOT WaveshareEPaper2P9InB::display() {
   this->write_array(this->buffer_, this->get_buffer_length_());
   this->end_data_();
   delay(2);
+  this->command(0x92);
 
   // COMMAND DATA START TRANSMISSION 2 (RED data)
   this->command(0x13);
@@ -662,6 +663,7 @@ void HOT WaveshareEPaper2P9InB::display() {
     this->write_byte(0x00);
   this->end_data_();
   delay(2);
+  this->command(0x92);
 
   // COMMAND DISPLAY REFRESH
   this->command(0x12);
