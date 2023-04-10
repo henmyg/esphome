@@ -132,6 +132,8 @@ void WaveshareEPaper::fill(Color color) {
   const uint8_t fill = color.is_on() ? 0x00 : 0xFF;
   for (uint32_t i = 0; i < this->get_buffer_length_(); i++)
     this->buffer_[i] = fill;
+
+    ESP_LOGCONFIG(TAG, "FILL: %u", fill);
 }
 void HOT WaveshareEPaper::draw_absolute_pixel_internal(int x, int y, Color color) {
   if (x >= this->get_width_internal() || y >= this->get_height_internal() || x < 0 || y < 0)
@@ -145,6 +147,8 @@ void HOT WaveshareEPaper::draw_absolute_pixel_internal(int x, int y, Color color
   } else {
     this->buffer_[pos] &= ~(0x80 >> subpos);
   }
+
+  ESP_LOGCONFIG(TAG, "Absolute: %i, (%i, %i)", color.is_on(), x, y);
 }
 uint32_t WaveshareEPaper::get_buffer_length_() { return this->get_width_internal() * this->get_height_internal() / 8u; }
 void WaveshareEPaper::start_command_() {
