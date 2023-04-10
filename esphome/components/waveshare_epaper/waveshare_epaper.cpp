@@ -133,7 +133,7 @@ void WaveshareEPaper::fill(Color color) {
   for (uint32_t i = 0; i < this->get_buffer_length_(); i++)
     this->buffer_[i] = fill;
 
-    ESP_LOGCONFIG(TAG, "FILL: %u", fill);
+  ESP_LOGCONFIG(TAG, "FILL: %u", fill);
 }
 void HOT WaveshareEPaper::draw_absolute_pixel_internal(int x, int y, Color color) {
   if (x >= this->get_width_internal() || y >= this->get_height_internal() || x < 0 || y < 0)
@@ -664,7 +664,7 @@ void HOT WaveshareEPaper2P9InB::display() {
   delay(2);
   this->start_data_();
   for (size_t i = 0; i < this->get_buffer_length_(); i++)
-    this->write_byte(0x00);
+    this->write_byte(0xFF);
   this->end_data_();
   delay(2);
   this->command(0x92);
@@ -673,6 +673,8 @@ void HOT WaveshareEPaper2P9InB::display() {
   this->command(0x12);
   delay(2);
   this->wait_until_idle_();
+
+  delay(2000);
 
   // COMMAND POWER OFF
   // NOTE: power off < deep sleep
